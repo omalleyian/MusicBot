@@ -4,6 +4,7 @@ FROM python:3.8-alpine
 WORKDIR /musicbot
 COPY . ./
 COPY ./config sample_config
+COPY ./cache_cleanup.sh /etc/periodic/daily/
 
 # Install build dependencies
 RUN apk update && apk add --no-cache --virtual .build-deps \
@@ -18,7 +19,8 @@ RUN apk update && apk add --no-cache \
   opus-dev \
   libffi \
   libsodium \
-  gcc
+  gcc \
+  bash
 
 # Install pip dependencies
 RUN pip3 install --no-cache-dir -r requirements.txt
